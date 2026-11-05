@@ -1,26 +1,140 @@
 @import "tailwindcss";
 
+/* ─── Theme tokens ──────────────────────────────────────────── */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Base palette */
+  --ink:          #14110E;
+  --ink-dim:      #2A2522;
+  --ink-muted:    #5A5350;
+
+  --paper:        #FAF8F4;
+  --paper-dim:    #F0EDE6;
+
+  --gold:         #C9A86A;
+  --gold-dim:     #8A6F3E;
+
+  --body-dark:    #A8A29E;
+  --body-light:   #5C534F;
+
+  /* Semantic */
+  --bg:           var(--ink);
+  --fg:           var(--paper);
+  --accent:       var(--gold);
+  --muted:        var(--body-dark);
+  --border:       rgba(201, 168, 106, 0.18);
+  --border-light: rgba(201, 168, 106, 0.10);
+}
+
+[data-theme="light"] {
+  --bg:           var(--paper);
+  --fg:           var(--ink);
+  --accent:       var(--gold-dim);
+  --muted:        var(--body-light);
+  --border:       rgba(138, 111, 62, 0.20);
+  --border-light: rgba(138, 111, 62, 0.10);
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-ink:          #14110E;
+  --color-ink-dim:      #2A2522;
+  --color-ink-muted:    #5A5350;
+  --color-paper:        #FAF8F4;
+  --color-paper-dim:    #F0EDE6;
+  --color-gold:         #C9A86A;
+  --color-gold-dim:     #8A6F3E;
+  --color-body-dark:    #A8A29E;
+  --color-body-light:   #5C534F;
+
+  --font-display: var(--font-fraunces);
+  --font-sans:    var(--font-geist-sans);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* ─── Base ──────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; }
+
+html {
+  height: 100%;
+  scroll-behavior: auto; /* Lenis handles this */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-sans), system-ui, sans-serif;
+  min-height: 100%;
+  transition: background-color 0.4s ease, color 0.4s ease;
+}
+
+/* ─── Typography primitives ─────────────────────────────────── */
+.font-display { font-family: var(--font-fraunces), Georgia, serif; }
+
+/* Eyebrow label style */
+.label {
+  font-family: var(--font-sans), system-ui, sans-serif;
+  font-size: 0.6875rem;
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+/* Hairline rules */
+.rule-gold { border-color: var(--border); }
+
+/* ─── Scrollbar ─────────────────────────────────────────────── */
+::-webkit-scrollbar { width: 3px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
+/* ─── Focus visible ─────────────────────────────────────────── */
+:focus-visible {
+  outline: 1.5px solid var(--accent);
+  outline-offset: 3px;
+}
+
+/* ─── Selection ─────────────────────────────────────────────── */
+::selection {
+  background-color: rgba(201, 168, 106, 0.25);
+  color: var(--fg);
+}
+
+/* ─── Range input ────────────────────────────────────────────── */
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--accent);
+  border: 1px solid var(--accent);
+  cursor: pointer;
+  margin-top: -6.5px;
+}
+input[type="range"]::-moz-range-thumb {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--accent);
+  border: 1px solid var(--accent);
+  cursor: pointer;
+}
+
+/* ─── Leaflet popup override ────────────────────────────────── */
+.leaflet-popup-content-wrapper {
+  background: transparent !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+  border-radius: 0 !important;
+}
+.leaflet-popup-content { margin: 0 !important; }
+.leaflet-popup-tip-container { display: none; }
+
+/* ─── Reduced motion ────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }
